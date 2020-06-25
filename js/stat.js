@@ -22,6 +22,15 @@ var renderTitle = function(ctx, x, y, gap, font, color) {
   ctx.fillText('Список результатов:', x, y + gap* 2);
 }
 
+function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++ ) {
+      color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 var getMaxElement = function(arr) {
   var maxElement = arr[0];
 
@@ -42,7 +51,7 @@ window.renderStatistics = function(ctx, players, times) {
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < players.length; i++) {
-    var columnColor = (players[i] === 'Вы') ? ctx.fillStyle = 'rgba(255, 0, 0, 1)' : ctx.fillStyle = 'hsl(240,'+ Math.ceil(Math.random() * 100) +'%, 50%)';
+    ctx.fillStyle = (players[i] === 'Вы') ? 'rgba(255, 0, 0, 1)' : getRandomColor();
     ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + FONT_GAP * 2 + GAP * 3 + BAR_HEIGHT, BAR_WIDTH, - (BAR_HEIGHT  * times[i]) / maxTime);
 
     ctx.fillStyle = '#000';
