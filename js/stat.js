@@ -23,12 +23,7 @@ var renderTitle = function(ctx, x, y, gap, font, color) {
 }
 
 function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++ ) {
-      color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
+  return 'hsl(240, ' + Math.random() * 100 + '%, 50%)';
 }
 
 var getMaxElement = function(arr) {
@@ -43,19 +38,40 @@ var getMaxElement = function(arr) {
   return maxElement;
 };
 
+var renderBar = function(ctx, i, times, maxTime) {
+  var x = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
+  var y = CLOUD_Y + FONT_GAP * 2 + GAP * 3 + BAR_HEIGHT;
+  var width = BAR_WIDTH;
+  var height = - BAR_HEIGHT  * times[i] / maxTime;
+  ctx.fillRect(x, y, width, height);
+}
+
+var renderName = function(ctx, players, i) {
+  var playerName = players[i];
+  var x = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
+  var y = CLOUD_Y + GAP * 2 + FONT_GAP * 4 + BAR_HEIGHT;
+  ctx.fillText(playerName, x, y);
+}
+
+var renderTime = function(ctx, times, i, maxTime) {
+  var timeValue = Math.round(times[i]);
+  var xPosition = CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i;
+  var yPosition= CLOUD_Y + GAP + FONT_GAP * 3 + BAR_HEIGHT - BAR_HEIGHT  * times[i] / maxTime;
+  ctx.fillText(timeValue, xPosition, yPosition);
+}
+
 window.renderStatistics = function(ctx, players, times) {
   renderCloud(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, 'rgba(0, 0, 0, 0.7)');
   renderCloud(ctx, CLOUD_X, CLOUD_Y, '#fff');
-  renderTitle(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, FONT_GAP, '16px PT Mono', '#000')
+  renderTitle(ctx, CLOUD_X + GAP, CLOUD_Y + GAP, FONT_GAP, '16px PT Mono', '#000');
 
   var maxTime = getMaxElement(times);
 
   for (var i = 0; i < players.length; i++) {
     ctx.fillStyle = (players[i] === 'Вы') ? 'rgba(255, 0, 0, 1)' : getRandomColor();
-    ctx.fillRect(CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + FONT_GAP * 2 + GAP * 3 + BAR_HEIGHT, BAR_WIDTH, - (BAR_HEIGHT  * times[i]) / maxTime);
-
+    renderBar(ctx, i, times, maxTime);
     ctx.fillStyle = '#000';
-    ctx.fillText(players[i], CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + GAP * 2 + FONT_GAP * 4 + BAR_HEIGHT);
-    ctx.fillText(Math.round(times[i]), CLOUD_X + BAR_GAP + (BAR_WIDTH + BAR_GAP) * i, CLOUD_Y + GAP + FONT_GAP * 3 + BAR_HEIGHT - (BAR_HEIGHT  * times[i]) / maxTime);
+    renderName(ctx, players, i);
+    renderTime(ctx, times, i, maxTime);
   }
 };
