@@ -1,11 +1,18 @@
 'use strict';
 
 var WIZARD_NAMES = ['Иван ', 'Хуан Себастьян ', 'Мария ', 'Кристоф ', 'Виктор ', 'Юлия ', 'Люпита ', 'Вашингтон '];
-var WIZARD_SURNAME = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var WIZARD_COAT = ['rgb(101, 137, 164)', 'rgb(241, 43, 107)', 'rgb(146, 100, 161)', 'rgb(56, 159, 117)', 'rgb(215, 210, 55)', 'rgb(0, 0, 0)'];
-var WIZARD_EYES = ['black', 'red', 'blue', 'yellow', 'green'];
+var WIZARD_SURNAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var WIZARD_COAT_COLORS = [
+  'rgb(101, 137, 164)',
+  'rgb(241, 43, 107)',
+  'rgb(146, 100, 161)',
+  'rgb(56, 159, 117)',
+  'rgb(215, 210, 55)',
+  'rgb(0, 0, 0)'
+];
+var WIZARD_EYE_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
 
-function arrayRandElement(arr) {
+function getRandElement(arr) {
   var rand = Math.floor(Math.random() * arr.length);
   return arr[rand];
 }
@@ -19,28 +26,17 @@ var similarWizardTemplate = document.querySelector('#similar-wizard-template')
   .content
   .querySelector('.setup-similar-item');
 
-var wizards = [
-  {
-    name: arrayRandElement(WIZARD_NAMES) + arrayRandElement(WIZARD_SURNAME),
-    coatColor: arrayRandElement(WIZARD_COAT),
-    eyesColor: arrayRandElement(WIZARD_EYES)
-  },
-  {
-    name: arrayRandElement(WIZARD_NAMES) + arrayRandElement(WIZARD_SURNAME),
-    coatColor: arrayRandElement(WIZARD_COAT),
-    eyesColor: arrayRandElement(WIZARD_EYES)
-  },
-  {
-    name: arrayRandElement(WIZARD_NAMES) + arrayRandElement(WIZARD_SURNAME),
-    coatColor: arrayRandElement(WIZARD_COAT),
-    eyesColor: arrayRandElement(WIZARD_EYES)
-  },
-  {
-    name: arrayRandElement(WIZARD_NAMES) + arrayRandElement(WIZARD_SURNAME),
-    coatColor: arrayRandElement(WIZARD_COAT),
-    eyesColor: arrayRandElement(WIZARD_EYES)
+  var wizard = {
+    name: getRandElement(WIZARD_NAMES) + getRandElement(WIZARD_SURNAMES),
+    coatColor: getRandElement(WIZARD_COAT_COLORS),
+    eyesColor: getRandElement(WIZARD_EYE_COLORS)
+  };
+
+  var wizards = [];
+
+  for (var i = 0; i < 4; i++) {
+    wizards[i] = wizard;
   }
-];
 
 var renderWizard = function(wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
